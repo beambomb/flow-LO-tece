@@ -110,29 +110,29 @@ export default function Home() {
           for (let i = 1; i <= 3; i++) setFloor(baseAgents, `lo${i}`, 4, i - 1, true);
           for (let i = 1; i <= 6; i++) { setFloor(baseAgents, `t${i}`, 4, i - 1); baseAgents[`t${i}`].status = "Transit 4B1"; }
           break;
-        case 5: // Transisi 1: T1 & LO1 turun ke Lt 3 (Area Tangga)
+        case 5: // Transisi 1: T1 & LO1 di Area Tangga
           setFloor(baseAgents, 'lo1', 3.5, 0, true);
           setFloor(baseAgents, 't1', 3.5, 0); baseAgents.t1.status = "Persiapan";
           setFloor(baseAgents, 'lo2', 4, 1, true); setFloor(baseAgents, 'lo3', 4, 2, true);
           for (let i = 2; i <= 6; i++) setFloor(baseAgents, `t${i}`, 4, i - 1);
           break;
-        case 6:
-        case 7:
+        case 6: // Presentasi 1
+        case 7: // Tanya Jawab 1
           setFloor(baseAgents, 'lo1', 3, 0, true);
           setFloor(baseAgents, 't1', 3, 0); baseAgents.t1.status = "Presenting";
           setFloor(baseAgents, 'lo2', 4, 1, true); setFloor(baseAgents, 'lo3', 4, 2, true);
           for (let i = 2; i <= 6; i++) setFloor(baseAgents, `t${i}`, 4, i - 1);
           break;
-        case 8: // Transisi 2: T1 & LO1 naik, T2 & LO2 turun (Area Tangga)
-          setFloor(baseAgents, 'lo1', 3.5, 0, true);
-          setFloor(baseAgents, 't1', 3.5, 0); baseAgents.t1.status = "Naro Barang";
+        case 8: // Transisi 2: T1 & LO1 di Ruang Tunggu (Lt 4), T2 & LO2 di Area Tangga (Lt 3.5)
+          setFloor(baseAgents, 'lo1', 4, 0, true);
+          setFloor(baseAgents, 't1', 4, 0); baseAgents.t1.status = "Naro Barang";
           setFloor(baseAgents, 'lo2', 3.5, 1, true);
           setFloor(baseAgents, 't2', 3.5, 1); baseAgents.t2.status = "Persiapan";
           setFloor(baseAgents, 'lo3', 4, 2, true);
           for (let i = 3; i <= 6; i++) setFloor(baseAgents, `t${i}`, 4, i - 1);
           break;
         case 9:
-        case 10: // Presentasi 2: T1 turun nonton, LO1 standby Lt 4. T2 & LO2 presenting Lt 3.
+        case 10: // Presentasi 2: T1 di Lt 3 (Nonton), LO1 di Lt 4, T2 & LO2 di Lt 3
           setFloor(baseAgents, 'lo1', 4, 0, true);
           setFloor(baseAgents, 't1', 3, 0); baseAgents.t1.status = "Nonton";
           setFloor(baseAgents, 'lo2', 3, 1, true);
@@ -140,17 +140,17 @@ export default function Home() {
           setFloor(baseAgents, 'lo3', 4, 2, true);
           for (let i = 3; i <= 6; i++) setFloor(baseAgents, `t${i}`, 4, i - 1);
           break;
-        case 11: // Transisi 3: T2 & LO2 naik, T3 & LO3 turun (Area Tangga)
+        case 11: // Transisi 3: T2 & LO2 di Ruang Tunggu (Lt 4), T3 & LO3 di Area Tangga (Lt 3.5)
           setFloor(baseAgents, 't1', 3, 0); baseAgents.t1.status = "Nonton";
           setFloor(baseAgents, 'lo1', 4, 0, true);
-          setFloor(baseAgents, 'lo2', 3.5, 1, true);
-          setFloor(baseAgents, 't2', 3.5, 1); baseAgents.t2.status = "Naro Barang";
+          setFloor(baseAgents, 'lo2', 4, 1, true);
+          setFloor(baseAgents, 't2', 4, 1); baseAgents.t2.status = "Naro Barang";
           setFloor(baseAgents, 'lo3', 3.5, 2, true);
           setFloor(baseAgents, 't3', 3.5, 2); baseAgents.t3.status = "Persiapan";
           for (let i = 4; i <= 6; i++) setFloor(baseAgents, `t${i}`, 4, i - 1);
           break;
         case 12:
-        case 13: // Presentasi 3: T2 turun nonton, LO2 standby Lt 4. T3 & LO3 presenting.
+        case 13: // Presentasi 3: T2 di Lt 3 (Nonton), LO2 di Lt 4, T3 & LO3 di Lt 3
           setFloor(baseAgents, 't1', 3, 0); baseAgents.t1.status = "Nonton";
           setFloor(baseAgents, 'lo1', 4, 0, true);
           setFloor(baseAgents, 't2', 3, 1); baseAgents.t2.status = "Nonton";
@@ -159,18 +159,18 @@ export default function Home() {
           setFloor(baseAgents, 't3', 3, 2); baseAgents.t3.status = "Presenting";
           for (let i = 4; i <= 6; i++) setFloor(baseAgents, `t${i}`, 4, i - 1);
           break;
-        case 14: // Transisi 4: T3 & LO3 naik, T4 & LO1 turun (Area Tangga)
+        case 14: // Transisi 4: T3 & LO3 di Ruang Tunggu (Lt 4), T4 & LO1 di Area Tangga (Lt 3.5)
           setFloor(baseAgents, 't1', 3, 0); baseAgents.t1.status = "Nonton";
           setFloor(baseAgents, 't2', 3, 1); baseAgents.t2.status = "Nonton";
           setFloor(baseAgents, 'lo2', 4, 1, true);
-          setFloor(baseAgents, 'lo3', 3.5, 2, true);
-          setFloor(baseAgents, 't3', 3.5, 2); baseAgents.t3.status = "Naro Barang";
+          setFloor(baseAgents, 'lo3', 4, 2, true);
+          setFloor(baseAgents, 't3', 4, 2); baseAgents.t3.status = "Naro Barang";
           setFloor(baseAgents, 'lo1', 3.5, 0, true);
           setFloor(baseAgents, 't4', 3.5, 3); baseAgents.t4.status = "Persiapan";
           setFloor(baseAgents, 't5', 4, 4); setFloor(baseAgents, 't6', 4, 5);
           break;
         case 15:
-        case 16: // Presentasi 4: T3 turun nonton, LO3 standby Lt 4. T4 & LO1 presenting.
+        case 16: // Presentasi 4: T3 di Lt 3 (Nonton), LO3 di Lt 4, T4 & LO1 di Lt 3
           setFloor(baseAgents, 't1', 3, 0); baseAgents.t1.status = "Nonton";
           setFloor(baseAgents, 't2', 3, 1); baseAgents.t2.status = "Nonton";
           setFloor(baseAgents, 't3', 3, 2); baseAgents.t3.status = "Nonton";
@@ -184,37 +184,37 @@ export default function Home() {
           for (let i = 1; i <= 3; i++) setFloor(baseAgents, `lo${i}`, 1, i - 1, true);
           for (let i = 1; i <= 6; i++) { setFloor(baseAgents, `t${i}`, 1, i - 1); baseAgents[`t${i}`].status = "Break"; }
           break;
-        case 18: // Transisi 5: T5 & LO2 turun (Area Tangga)
+        case 18: // Transisi 5: T5 & LO2 di Area Tangga (Lt 3.5)
           setFloor(baseAgents, 'lo2', 3.5, 1, true);
           setFloor(baseAgents, 't5', 3.5, 4); baseAgents.t5.status = "Persiapan";
           setFloor(baseAgents, 'lo3', 4, 2, true);
           setFloor(baseAgents, 't6', 4, 5); baseAgents.t6.status = "Standby";
-          setFloor(baseAgents, 'lo1', 3, 0, true);
+          setFloor(baseAgents, 'lo1', 4, 0, true);
           for (let i = 1; i <= 4; i++) {
              setFloor(baseAgents, `t${i}`, 3, i - 1); 
              baseAgents[`t${i}`].status = "Nonton";
           }
           break;
         case 19:
-        case 20: // Presentasi 5: T5 & LO2 turun Lt 3. T6 & LO3 standby Lt 4.
-          setFloor(baseAgents, 'lo1', 3, 0, true);
+        case 20: // Presentasi 5: T5 & LO2 presentasi di Lt 3
+          setFloor(baseAgents, 'lo1', 4, 0, true);
           for (let i = 1; i <= 4; i++) { setFloor(baseAgents, `t${i}`, 3, i - 1); baseAgents[`t${i}`].status = "Nonton"; }
           setFloor(baseAgents, 'lo2', 3, 1, true);
           setFloor(baseAgents, 't5', 3, 4); baseAgents.t5.status = "Presenting";
           setFloor(baseAgents, 'lo3', 4, 2, true);
           setFloor(baseAgents, 't6', 4, 5); baseAgents.t6.status = "Standby";
           break;
-        case 21: // Transisi 6: T5 & LO2 naik, T6 & LO3 turun (Area Tangga)
-          setFloor(baseAgents, 'lo1', 3, 0, true);
+        case 21: // Transisi 6: T5 & LO2 di Ruang Tunggu (Lt 4), T6 & LO3 di Area Tangga (Lt 3.5)
+          setFloor(baseAgents, 'lo1', 4, 0, true);
           for (let i = 1; i <= 4; i++) { setFloor(baseAgents, `t${i}`, 3, i - 1); baseAgents[`t${i}`].status = "Nonton"; }
-          setFloor(baseAgents, 'lo2', 3.5, 1, true);
-          setFloor(baseAgents, 't5', 3.5, 4); baseAgents.t5.status = "Naro Barang";
+          setFloor(baseAgents, 'lo2', 4, 1, true);
+          setFloor(baseAgents, 't5', 4, 4); baseAgents.t5.status = "Naro Barang";
           setFloor(baseAgents, 'lo3', 3.5, 2, true);
           setFloor(baseAgents, 't6', 3.5, 5); baseAgents.t6.status = "Persiapan";
           break;
         case 22:
-        case 23: // Presentasi 6: T5 turun nonton, LO2 standby Lt 4. T6 & LO3 presenting.
-          setFloor(baseAgents, 'lo1', 3, 0, true);
+        case 23: // Presentasi 6: T5 di Lt 3 (Nonton), LO2 di Lt 4, T6 & LO3 di Lt 3
+          setFloor(baseAgents, 'lo1', 4, 0, true);
           for (let i = 1; i <= 5; i++) { setFloor(baseAgents, `t${i}`, 3, i - 1); baseAgents[`t${i}`].status = "Nonton"; }
           setFloor(baseAgents, 'lo2', 4, 1, true);
           setFloor(baseAgents, 'lo3', 3, 2, true);
