@@ -4,24 +4,34 @@ import { useState, useEffect } from 'react';
 
 // Rundown Data Model
 const rundownData = [
-  { time: "07:00", event: "Open gate peserta (Semua di Lt. 1)" },
-  { time: "08:00", event: "Semua peserta & LO ke Ruang Tunggu (Lt. 4)" },
-  { time: "08:10", event: "Tim 1 persiapan turun ke Lt. 3" },
-  { time: "08:13", event: "Tim 1 tiba di Lt. 3" },
-  { time: "08:16", event: "Presentasi Tim 1" },
-  { time: "08:56", event: "Tim 1 selesai (naik ke Lt.4) & Tim 2 turun (ke Lt.3)" },
-  { time: "08:59", event: "Tim 1 kembali nonton (ke Lt.3), Presentasi Tim 2" },
-  { time: "09:39", event: "Tim 2 selesai (naik ke Lt.4) & Tim 3 turun (ke Lt.3)" },
-  { time: "09:42", event: "Tim 2 kembali nonton (ke Lt.3), Presentasi Tim 3" },
-  { time: "10:22", event: "Tim 3 selesai (naik ke Lt.4) & Tim 4 turun (ke Lt.3)" },
-  { time: "10:25", event: "Tim 3 kembali nonton (ke Lt.3), Presentasi Tim 4" },
-  { time: "11:05", event: "ISHOMA (Semua turun ke Lt. 1)" },
-  { time: "13:00", event: "Tim 5 & LO2 ambil barang di Lt.4, lainnya kumpul di Lt.3" },
-  { time: "13:03", event: "Presentasi Tim 5 (Lt.3)" },
-  { time: "13:43", event: "Tim 5 selesai (naik ke Lt.4) & Tim 6 turun (ke Lt.3)" },
-  { time: "13:46", event: "Tim 5 kembali nonton (ke Lt.3), Presentasi Tim 6" },
-  { time: "14:26", event: "Semua peserta kumpul di Lt. 3" },
-  { time: "16:30", event: "Pengumuman Juara (Lt. 3)" }
+  { no: "1", start: "6:00", end: "7:00", duration: "1:00", event: "Persiapan dan briefing" },
+  { no: "2", start: "7:00", end: "8:00", duration: "1:00", event: "Open gate peserta" },
+  { no: "3", start: "8:00", end: "8:05", duration: "0:05", event: "Pembukaan" },
+  { no: "4", start: "8:05", end: "8:10", duration: "0:05", event: "Pembacaan profil juri dan teknis acara" },
+  { no: "5", start: "8:10", end: "8:13", duration: "0:03", event: "Persiapan perlengkapan peserta" },
+  { no: "6", start: "8:13", end: "8:16", duration: "0:03", event: "(Transisi) Persiapan Kelompok 1" },
+  { no: "7", start: "8:16", end: "8:31", duration: "0:15", event: "Presentasi kelompok 1" },
+  { no: "8", start: "8:31", end: "8:56", duration: "0:25", event: "Sesi Tanya Jawab 1" },
+  { no: "9", start: "8:56", end: "8:59", duration: "0:03", event: "(Transisi) Persiapan kelompok 2" },
+  { no: "10", start: "8:59", end: "9:14", duration: "0:15", event: "Presentasi kelompok 2" },
+  { no: "11", start: "9:14", end: "9:39", duration: "0:25", event: "Sesi Tanya Jawab 2" },
+  { no: "12", start: "9:39", end: "9:42", duration: "0:03", event: "(Transisi) Persiapan kelompok 3" },
+  { no: "13", start: "9:42", end: "9:57", duration: "0:15", event: "Presentasi kelompok 3" },
+  { no: "14", start: "9:57", end: "10:22", duration: "0:25", event: "Sesi Tanya Jawab 3" },
+  { no: "15", start: "10:22", end: "10:25", duration: "0:03", event: "(Transisi) Persiapan kelompok 4" },
+  { no: "16", start: "10:25", end: "10:40", duration: "0:15", event: "Presentasi kelompok 4" },
+  { no: "17", start: "10:40", end: "11:05", duration: "0:25", event: "Sesi Tanya Jawab 4" },
+  { no: "-", start: "11:05", end: "13:00", duration: "1:55", event: "ISHOMA", isBreak: true },
+  { no: "18", start: "13:00", end: "13:03", duration: "0:03", event: "(Transisi) Persiapan kelompok 5" },
+  { no: "19", start: "13:03", end: "13:18", duration: "0:15", event: "Presentasi kelompok 5" },
+  { no: "20", start: "13:18", end: "13:43", duration: "0:25", event: "Sesi Tanya Jawab 5" },
+  { no: "21", start: "13:43", end: "13:46", duration: "0:03", event: "(Transisi) Persiapan kelompok 6" },
+  { no: "22", start: "13:46", end: "14:01", duration: "0:15", event: "Presentasi kelompok 6" },
+  { no: "23", start: "14:01", end: "14:26", duration: "0:25", event: "Sesi Tanya Jawab 6" },
+  { no: "24", start: "14:26", end: "14:29", duration: "0:03", event: "Peserta kembali ke ruang presentasi" },
+  { no: "25", start: "14:29", end: "14:39", duration: "0:10", event: "Penutupan" },
+  { no: "26", start: "14:39", end: "16:30", duration: "1:51", event: "Rapat Juri" },
+  { no: "27", start: "16:30", end: "17:00", duration: "0:30", event: "Pengumuman Juara" }
 ];
 
 const teamNames = {
@@ -59,111 +69,111 @@ export default function Home() {
 
   // Calculate coordinates based on step
   useEffect(() => {
-    const step = rundownData[currentStep];
-    const newAgents = { ...agents };
+    let baseAgents = {
+      lo1: { top: coords.floor1.Y, left: coords.floor1.X_LO[0], status: "" },
+      lo2: { top: coords.floor1.Y, left: coords.floor1.X_LO[1], status: "" },
+      lo3: { top: coords.floor1.Y, left: coords.floor1.X_LO[2], status: "" },
+      t1: { top: coords.floor1.Y, left: coords.floor1.X_Team[0], status: "Standby" },
+      t2: { top: coords.floor1.Y, left: coords.floor1.X_Team[1], status: "Standby" },
+      t3: { top: coords.floor1.Y, left: coords.floor1.X_Team[2], status: "Standby" },
+      t4: { top: coords.floor1.Y, left: coords.floor1.X_Team[3], status: "Standby" },
+      t5: { top: coords.floor1.Y, left: coords.floor1.X_Team[4], status: "Standby" },
+      t6: { top: coords.floor1.Y, left: coords.floor1.X_Team[5], status: "Standby" }
+    };
 
-    const setFloor = (agentId, floorNum, index, isLO = false) => {
+    const setFloor = (stateObj, agentId, floorNum, index, isLO = false) => {
       const f = floorNum === 1 ? coords.floor1 : floorNum === 3 ? coords.floor3 : coords.floor4;
-      newAgents[agentId] = {
-        ...newAgents[agentId],
+      stateObj[agentId] = {
+        ...stateObj[agentId],
         top: f.Y,
         left: isLO ? f.X_LO[index] : f.X_Team[index]
       };
     };
 
-    // Helper logic to map steps to floors
-    switch (currentStep) {
-      case 0: // 07:00 All Lt 1
-        for (let i = 1; i <= 3; i++) setFloor(`lo${i}`, 1, i - 1, true);
-        for (let i = 1; i <= 6; i++) { setFloor(`t${i}`, 1, i - 1); newAgents[`t${i}`].status = "Gate"; }
-        break;
-      case 1: // 08:00 All Lt 4
-        for (let i = 1; i <= 3; i++) setFloor(`lo${i}`, 4, i - 1, true);
-        for (let i = 1; i <= 6; i++) { setFloor(`t${i}`, 4, i - 1); newAgents[`t${i}`].status = "Transit 4B1"; }
-        break;
-      case 2: // 08:10 T1 & LO1 ke Lt 3
-      case 3: // 08:13 T1 tiba di Lt 3
-      case 4: // 08:16 T1 Presentasi
-        setFloor('lo1', 3, 0, true);
-        setFloor('t1', 3, 0); newAgents.t1.status = currentStep >= 4 ? "Presenting" : "Persiapan";
-        setFloor('lo2', 4, 1, true); setFloor('lo3', 4, 2, true);
-        for (let i = 2; i <= 6; i++) setFloor(`t${i}`, 4, i - 1);
-        break;
-      case 5: // 08:56 T1 & LO1 naik Lt 4 (Naro barang), T2 & LO2 turun Lt 3
-        setFloor('lo1', 4, 0, true);
-        setFloor('t1', 4, 0); newAgents.t1.status = "Naro Barang";
-        setFloor('lo2', 3, 1, true);
-        setFloor('t2', 3, 1); newAgents.t2.status = "Persiapan";
-        break;
-      case 6: // 08:59 T1 & LO1 turun Lt 3 (Nonton), T2 & LO2 Presentasi
-        setFloor('lo1', 3, 0, true);
-        setFloor('t1', 3, 0); newAgents.t1.status = "Nonton";
-        setFloor('lo2', 3, 1, true);
-        setFloor('t2', 3, 1); newAgents.t2.status = "Presenting";
-        break;
-      case 7: // 09:39 T2 & LO2 naik Lt 4, T3 & LO3 turun Lt 3
-        setFloor('lo2', 4, 1, true);
-        setFloor('t2', 4, 1); newAgents.t2.status = "Naro Barang";
-        setFloor('lo3', 3, 2, true);
-        setFloor('t3', 3, 2); newAgents.t3.status = "Persiapan";
-        break;
-      case 8: // 09:42 T2 & LO2 turun Lt 3 nonton, T3 & LO3 Presentasi
-        setFloor('lo2', 3, 1, true);
-        setFloor('t2', 3, 1); newAgents.t2.status = "Nonton";
-        setFloor('lo3', 3, 2, true);
-        setFloor('t3', 3, 2); newAgents.t3.status = "Presenting";
-        break;
-      case 9: // 10:22 T3 & LO3 naik Lt 4, T4 turun Lt 3 ditemani LO1
-        setFloor('lo3', 4, 2, true);
-        setFloor('t3', 4, 2); newAgents.t3.status = "Naro Barang";
-        setFloor('lo1', 3, 0, true);
-        setFloor('t4', 3, 3); newAgents.t4.status = "Persiapan";
-        break;
-      case 10: // 10:25 T3 & LO3 turun Lt 3 nonton, T4 & LO1 Presentasi
-        setFloor('lo3', 3, 2, true);
-        setFloor('t3', 3, 2); newAgents.t3.status = "Nonton";
-        setFloor('lo1', 3, 0, true);
-        setFloor('t4', 3, 3); newAgents.t4.status = "Presenting";
-        break;
-      case 11: // 11:05 ISHOMA (Semua ke Lt 1)
-        for (let i = 1; i <= 3; i++) setFloor(`lo${i}`, 1, i - 1, true);
-        for (let i = 1; i <= 6; i++) { setFloor(`t${i}`, 1, i - 1); newAgents[`t${i}`].status = "Break"; }
-        break;
-      case 12: // 13:00 Tim 5 & LO2 naik Lt 4 ambil barang. Sisanya nonton di Lt 3.
-        setFloor('lo2', 4, 1, true);
-        setFloor('t5', 4, 4); newAgents.t5.status = "Ambil Barang";
-        setFloor('lo1', 3, 0, true); setFloor('lo3', 3, 2, true);
-        for (let i = 1; i <= 6; i++) {
-          if (i !== 5) {
-             setFloor(`t${i}`, 3, i - 1); 
-             newAgents[`t${i}`].status = "Nonton";
+    for (let step = 0; step <= currentStep; step++) {
+      switch (step) {
+        case 0:
+        case 1:
+          for (let i = 1; i <= 3; i++) setFloor(baseAgents, `lo${i}`, 1, i - 1, true);
+          for (let i = 1; i <= 6; i++) { setFloor(baseAgents, `t${i}`, 1, i - 1); baseAgents[`t${i}`].status = "Gate"; }
+          break;
+        case 2:
+        case 3:
+          for (let i = 1; i <= 3; i++) setFloor(baseAgents, `lo${i}`, 4, i - 1, true);
+          for (let i = 1; i <= 6; i++) { setFloor(baseAgents, `t${i}`, 4, i - 1); baseAgents[`t${i}`].status = "Transit 4B1"; }
+          break;
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+          setFloor(baseAgents, 'lo1', 3, 0, true);
+          setFloor(baseAgents, 't1', 3, 0); baseAgents.t1.status = step >= 6 ? "Presenting" : "Persiapan";
+          setFloor(baseAgents, 'lo2', 4, 1, true); setFloor(baseAgents, 'lo3', 4, 2, true);
+          for (let i = 2; i <= 6; i++) setFloor(baseAgents, `t${i}`, 4, i - 1);
+          break;
+        case 8:
+        case 9:
+        case 10:
+          setFloor(baseAgents, 'lo1', 3, 0, true);
+          setFloor(baseAgents, 't1', 3, 0); baseAgents.t1.status = "Nonton";
+          setFloor(baseAgents, 'lo2', 3, 1, true);
+          setFloor(baseAgents, 't2', 3, 1); baseAgents.t2.status = step >= 9 ? "Presenting" : "Persiapan";
+          break;
+        case 11:
+        case 12:
+        case 13:
+          setFloor(baseAgents, 'lo2', 3, 1, true);
+          setFloor(baseAgents, 't2', 3, 1); baseAgents.t2.status = "Nonton";
+          setFloor(baseAgents, 'lo3', 3, 2, true);
+          setFloor(baseAgents, 't3', 3, 2); baseAgents.t3.status = step >= 12 ? "Presenting" : "Persiapan";
+          break;
+        case 14:
+        case 15:
+        case 16:
+          setFloor(baseAgents, 'lo3', 3, 2, true);
+          setFloor(baseAgents, 't3', 3, 2); baseAgents.t3.status = "Nonton";
+          setFloor(baseAgents, 'lo1', 3, 0, true);
+          setFloor(baseAgents, 't4', 3, 3); baseAgents.t4.status = step >= 15 ? "Presenting" : "Persiapan";
+          break;
+        case 17:
+          for (let i = 1; i <= 3; i++) setFloor(baseAgents, `lo${i}`, 1, i - 1, true);
+          for (let i = 1; i <= 6; i++) { setFloor(baseAgents, `t${i}`, 1, i - 1); baseAgents[`t${i}`].status = "Break"; }
+          break;
+        case 18:
+          setFloor(baseAgents, 'lo2', 4, 1, true);
+          setFloor(baseAgents, 't5', 4, 4); baseAgents.t5.status = "Ambil Barang";
+          setFloor(baseAgents, 'lo1', 3, 0, true); setFloor(baseAgents, 'lo3', 3, 2, true);
+          for (let i = 1; i <= 6; i++) {
+            if (i !== 5) {
+               setFloor(baseAgents, `t${i}`, 3, i - 1); 
+               baseAgents[`t${i}`].status = "Nonton";
+            }
           }
-        }
-        break;
-      case 13: // 13:03 T5 & LO2 turun Lt 3 Presentasi
-        setFloor('lo2', 3, 1, true);
-        setFloor('t5', 3, 4); newAgents.t5.status = "Presenting";
-        break;
-      case 14: // 13:43 T5 & LO2 naik Lt 4 (Naro barang), T6 & LO3 turun Lt 3
-        setFloor('lo2', 4, 1, true);
-        setFloor('t5', 4, 4); newAgents.t5.status = "Naro Barang";
-        setFloor('lo3', 3, 2, true);
-        setFloor('t6', 3, 5); newAgents.t6.status = "Persiapan";
-        break;
-      case 15: // 13:46 T5 & LO2 turun Lt 3 (Nonton), T6 & LO3 Presentasi
-        setFloor('lo2', 3, 1, true);
-        setFloor('t5', 3, 4); newAgents.t5.status = "Nonton";
-        setFloor('lo3', 3, 2, true);
-        setFloor('t6', 3, 5); newAgents.t6.status = "Presenting";
-        break;
-      case 16: // 14:26 Semua di Lt 3
-      case 17: // 16:30 Pengumuman
-        for (let i = 1; i <= 3; i++) setFloor(`lo${i}`, 3, i - 1, true);
-        for (let i = 1; i <= 6; i++) { setFloor(`t${i}`, 3, i - 1); newAgents[`t${i}`].status = "SGLC"; }
-        break;
+          break;
+        case 19:
+        case 20:
+          setFloor(baseAgents, 'lo2', 3, 1, true);
+          setFloor(baseAgents, 't5', 3, 4); baseAgents.t5.status = "Presenting";
+          break;
+        case 21:
+        case 22:
+        case 23:
+          setFloor(baseAgents, 'lo2', 3, 1, true);
+          setFloor(baseAgents, 't5', 3, 4); baseAgents.t5.status = "Nonton";
+          setFloor(baseAgents, 'lo3', 3, 2, true);
+          setFloor(baseAgents, 't6', 3, 5); baseAgents.t6.status = step >= 22 ? "Presenting" : "Persiapan";
+          break;
+        case 24:
+        case 25:
+        case 26:
+        case 27:
+          for (let i = 1; i <= 3; i++) setFloor(baseAgents, `lo${i}`, 3, i - 1, true);
+          for (let i = 1; i <= 6; i++) { setFloor(baseAgents, `t${i}`, 3, i - 1); baseAgents[`t${i}`].status = "SGLC"; }
+          break;
+      }
     }
 
-    setAgents(newAgents);
+    setAgents(baseAgents);
   }, [currentStep]);
 
   // Simulation loop
@@ -193,15 +203,49 @@ export default function Home() {
           <div className="panel-header">
             <h2>Rundown Event</h2>
           </div>
-          <div className="panel-content">
-            <ul className="rundown-list">
-              {rundownData.map((item, idx) => (
-                <li key={idx} className={idx === currentStep ? 'active' : idx < currentStep ? 'past' : 'future'}>
-                  <span className="time">{item.time}</span>
-                  <span className="event">{item.event}</span>
-                </li>
-              ))}
-            </ul>
+          <div className="panel-content" style={{ padding: 0 }}>
+            <div className="rundown-table-wrapper">
+              <table className="rundown-table">
+                <thead>
+                  <tr>
+                    <th rowSpan={2}>No</th>
+                    <th colSpan={3}>Waktu</th>
+                    <th rowSpan={2}>Kegiatan</th>
+                  </tr>
+                  <tr>
+                    <th>Mulai</th>
+                    <th>Selesai</th>
+                    <th>Durasi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rundownData.map((item, idx) => (
+                    <tr 
+                      key={idx} 
+                      onClick={() => {
+                        setCurrentStep(idx);
+                        setIsPlaying(false);
+                      }}
+                      className={`${idx === currentStep ? 'active' : idx < currentStep ? 'past' : 'future'} ${item.no === "27" ? "bg-yellow" : ""}`}
+                    >
+                      {item.isBreak ? (
+                        <td colSpan={5} style={{ textAlign: 'center', fontWeight: 'bold', letterSpacing: '2px', background: 'rgba(255,255,255,0.05)' }}>
+                          ISHOMA
+                        </td>
+                      ) : (
+                        <>
+                          <td>{item.no}</td>
+                          <td>{item.start}</td>
+                          <td>{item.end}</td>
+                          <td>{item.duration}</td>
+                          <td className="text-left">{item.event}</td>
+                        </>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </section>
 
