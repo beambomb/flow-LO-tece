@@ -99,10 +99,10 @@ export default function Home() {
           break;
         case 2:
         case 3:
+        case 4:
           for (let i = 1; i <= 3; i++) setFloor(baseAgents, `lo${i}`, 4, i - 1, true);
           for (let i = 1; i <= 6; i++) { setFloor(baseAgents, `t${i}`, 4, i - 1); baseAgents[`t${i}`].status = "Transit 4B1"; }
           break;
-        case 4:
         case 5:
         case 6:
         case 7:
@@ -112,28 +112,43 @@ export default function Home() {
           for (let i = 2; i <= 6; i++) setFloor(baseAgents, `t${i}`, 4, i - 1);
           break;
         case 8:
+          setFloor(baseAgents, 'lo1', 4, 0, true);
+          setFloor(baseAgents, 't1', 4, 0); baseAgents.t1.status = "Naro Barang";
+          setFloor(baseAgents, 'lo2', 3, 1, true);
+          setFloor(baseAgents, 't2', 3, 1); baseAgents.t2.status = "Persiapan";
+          break;
         case 9:
         case 10:
-          setFloor(baseAgents, 'lo1', 3, 0, true);
+          setFloor(baseAgents, 'lo1', 4, 0, true);
           setFloor(baseAgents, 't1', 3, 0); baseAgents.t1.status = "Nonton";
           setFloor(baseAgents, 'lo2', 3, 1, true);
-          setFloor(baseAgents, 't2', 3, 1); baseAgents.t2.status = step >= 9 ? "Presenting" : "Persiapan";
+          setFloor(baseAgents, 't2', 3, 1); baseAgents.t2.status = "Presenting";
           break;
         case 11:
+          setFloor(baseAgents, 'lo2', 4, 1, true);
+          setFloor(baseAgents, 't2', 4, 1); baseAgents.t2.status = "Naro Barang";
+          setFloor(baseAgents, 'lo3', 3, 2, true);
+          setFloor(baseAgents, 't3', 3, 2); baseAgents.t3.status = "Persiapan";
+          break;
         case 12:
         case 13:
-          setFloor(baseAgents, 'lo2', 3, 1, true);
+          setFloor(baseAgents, 'lo2', 4, 1, true);
           setFloor(baseAgents, 't2', 3, 1); baseAgents.t2.status = "Nonton";
           setFloor(baseAgents, 'lo3', 3, 2, true);
-          setFloor(baseAgents, 't3', 3, 2); baseAgents.t3.status = step >= 12 ? "Presenting" : "Persiapan";
+          setFloor(baseAgents, 't3', 3, 2); baseAgents.t3.status = "Presenting";
           break;
         case 14:
+          setFloor(baseAgents, 'lo3', 4, 2, true);
+          setFloor(baseAgents, 't3', 4, 2); baseAgents.t3.status = "Naro Barang";
+          setFloor(baseAgents, 'lo1', 3, 0, true);
+          setFloor(baseAgents, 't4', 3, 3); baseAgents.t4.status = "Persiapan";
+          break;
         case 15:
         case 16:
-          setFloor(baseAgents, 'lo3', 3, 2, true);
+          setFloor(baseAgents, 'lo3', 4, 2, true);
           setFloor(baseAgents, 't3', 3, 2); baseAgents.t3.status = "Nonton";
           setFloor(baseAgents, 'lo1', 3, 0, true);
-          setFloor(baseAgents, 't4', 3, 3); baseAgents.t4.status = step >= 15 ? "Presenting" : "Persiapan";
+          setFloor(baseAgents, 't4', 3, 3); baseAgents.t4.status = "Presenting";
           break;
         case 17:
           for (let i = 1; i <= 3; i++) setFloor(baseAgents, `lo${i}`, 1, i - 1, true);
@@ -142,9 +157,11 @@ export default function Home() {
         case 18:
           setFloor(baseAgents, 'lo2', 4, 1, true);
           setFloor(baseAgents, 't5', 4, 4); baseAgents.t5.status = "Ambil Barang";
-          setFloor(baseAgents, 'lo1', 3, 0, true); setFloor(baseAgents, 'lo3', 3, 2, true);
+          setFloor(baseAgents, 'lo3', 4, 2, true);
+          setFloor(baseAgents, 't6', 4, 5); baseAgents.t6.status = "Standby";
+          setFloor(baseAgents, 'lo1', 3, 0, true);
           for (let i = 1; i <= 6; i++) {
-            if (i !== 5) {
+            if (i !== 5 && i !== 6) {
                setFloor(baseAgents, `t${i}`, 3, i - 1); 
                baseAgents[`t${i}`].status = "Nonton";
             }
@@ -156,12 +173,17 @@ export default function Home() {
           setFloor(baseAgents, 't5', 3, 4); baseAgents.t5.status = "Presenting";
           break;
         case 21:
+          setFloor(baseAgents, 'lo2', 4, 1, true);
+          setFloor(baseAgents, 't5', 4, 4); baseAgents.t5.status = "Naro Barang";
+          setFloor(baseAgents, 'lo3', 3, 2, true);
+          setFloor(baseAgents, 't6', 3, 5); baseAgents.t6.status = "Persiapan";
+          break;
         case 22:
         case 23:
           setFloor(baseAgents, 'lo2', 3, 1, true);
           setFloor(baseAgents, 't5', 3, 4); baseAgents.t5.status = "Nonton";
           setFloor(baseAgents, 'lo3', 3, 2, true);
-          setFloor(baseAgents, 't6', 3, 5); baseAgents.t6.status = step >= 22 ? "Presenting" : "Persiapan";
+          setFloor(baseAgents, 't6', 3, 5); baseAgents.t6.status = "Presenting";
           break;
         case 24:
         case 25:
