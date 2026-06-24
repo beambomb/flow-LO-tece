@@ -46,8 +46,9 @@ const teamNames = {
 // Layout coordinates
 const coords = {
   floor1: { Y: 80, X_LO: [20, 25, 30], X_Team: [40, 45, 50, 55, 60, 65] },
-  floor3: { Y: 49, X_LO: [20, 25, 30], X_Team: [40, 45, 50, 55, 60, 65] },
-  floor4: { Y: 17, X_LO: [20, 25, 30], X_Team: [40, 45, 50, 55, 60, 65] }
+  floor3: { Y: 50, X_LO: [20, 25, 30], X_Team: [40, 45, 50, 55, 60, 65] },
+  floor3_5: { Y: 31, X_LO: [20, 25, 30], X_Team: [40, 45, 50, 55, 60, 65] },
+  floor4: { Y: 13, X_LO: [20, 25, 30], X_Team: [40, 45, 50, 55, 60, 65] }
 };
 
 export default function Home() {
@@ -82,7 +83,10 @@ export default function Home() {
     };
 
     const setFloor = (stateObj, agentId, floorNum, index, isLO = false) => {
-      const f = floorNum === 1 ? coords.floor1 : floorNum === 3 ? coords.floor3 : coords.floor4;
+      const f = floorNum === 1 ? coords.floor1 
+              : floorNum === 3 ? coords.floor3 
+              : floorNum === 3.5 ? coords.floor3_5
+              : coords.floor4;
       stateObj[agentId] = {
         ...stateObj[agentId],
         top: f.Y,
@@ -106,19 +110,24 @@ export default function Home() {
           for (let i = 1; i <= 3; i++) setFloor(baseAgents, `lo${i}`, 4, i - 1, true);
           for (let i = 1; i <= 6; i++) { setFloor(baseAgents, `t${i}`, 4, i - 1); baseAgents[`t${i}`].status = "Transit 4B1"; }
           break;
-        case 5:
-        case 6:
-        case 7:
-          setFloor(baseAgents, 'lo1', 3, 0, true);
-          setFloor(baseAgents, 't1', 3, 0); baseAgents.t1.status = step >= 6 ? "Presenting" : "Persiapan";
+        case 5: // Transisi 1: T1 & LO1 turun ke Lt 3 (Area Tangga)
+          setFloor(baseAgents, 'lo1', 3.5, 0, true);
+          setFloor(baseAgents, 't1', 3.5, 0); baseAgents.t1.status = "Persiapan";
           setFloor(baseAgents, 'lo2', 4, 1, true); setFloor(baseAgents, 'lo3', 4, 2, true);
           for (let i = 2; i <= 6; i++) setFloor(baseAgents, `t${i}`, 4, i - 1);
           break;
-        case 8: // Transisi 2: T1 & LO1 naik Lt 4. T2 & LO2 turun Lt 3.
-          setFloor(baseAgents, 'lo1', 4, 0, true);
-          setFloor(baseAgents, 't1', 4, 0); baseAgents.t1.status = "Naro Barang";
-          setFloor(baseAgents, 'lo2', 3, 1, true);
-          setFloor(baseAgents, 't2', 3, 1); baseAgents.t2.status = "Persiapan";
+        case 6:
+        case 7:
+          setFloor(baseAgents, 'lo1', 3, 0, true);
+          setFloor(baseAgents, 't1', 3, 0); baseAgents.t1.status = "Presenting";
+          setFloor(baseAgents, 'lo2', 4, 1, true); setFloor(baseAgents, 'lo3', 4, 2, true);
+          for (let i = 2; i <= 6; i++) setFloor(baseAgents, `t${i}`, 4, i - 1);
+          break;
+        case 8: // Transisi 2: T1 & LO1 naik, T2 & LO2 turun (Area Tangga)
+          setFloor(baseAgents, 'lo1', 3.5, 0, true);
+          setFloor(baseAgents, 't1', 3.5, 0); baseAgents.t1.status = "Naro Barang";
+          setFloor(baseAgents, 'lo2', 3.5, 1, true);
+          setFloor(baseAgents, 't2', 3.5, 1); baseAgents.t2.status = "Persiapan";
           setFloor(baseAgents, 'lo3', 4, 2, true);
           for (let i = 3; i <= 6; i++) setFloor(baseAgents, `t${i}`, 4, i - 1);
           break;
@@ -131,13 +140,13 @@ export default function Home() {
           setFloor(baseAgents, 'lo3', 4, 2, true);
           for (let i = 3; i <= 6; i++) setFloor(baseAgents, `t${i}`, 4, i - 1);
           break;
-        case 11: // Transisi 3: T2 & LO2 naik Lt 4. T3 & LO3 turun Lt 3.
+        case 11: // Transisi 3: T2 & LO2 naik, T3 & LO3 turun (Area Tangga)
           setFloor(baseAgents, 't1', 3, 0); baseAgents.t1.status = "Nonton";
           setFloor(baseAgents, 'lo1', 4, 0, true);
-          setFloor(baseAgents, 'lo2', 4, 1, true);
-          setFloor(baseAgents, 't2', 4, 1); baseAgents.t2.status = "Naro Barang";
-          setFloor(baseAgents, 'lo3', 3, 2, true);
-          setFloor(baseAgents, 't3', 3, 2); baseAgents.t3.status = "Persiapan";
+          setFloor(baseAgents, 'lo2', 3.5, 1, true);
+          setFloor(baseAgents, 't2', 3.5, 1); baseAgents.t2.status = "Naro Barang";
+          setFloor(baseAgents, 'lo3', 3.5, 2, true);
+          setFloor(baseAgents, 't3', 3.5, 2); baseAgents.t3.status = "Persiapan";
           for (let i = 4; i <= 6; i++) setFloor(baseAgents, `t${i}`, 4, i - 1);
           break;
         case 12:
@@ -150,14 +159,14 @@ export default function Home() {
           setFloor(baseAgents, 't3', 3, 2); baseAgents.t3.status = "Presenting";
           for (let i = 4; i <= 6; i++) setFloor(baseAgents, `t${i}`, 4, i - 1);
           break;
-        case 14: // Transisi 4: T3 & LO3 naik Lt 4. T4 & LO1 turun Lt 3.
+        case 14: // Transisi 4: T3 & LO3 naik, T4 & LO1 turun (Area Tangga)
           setFloor(baseAgents, 't1', 3, 0); baseAgents.t1.status = "Nonton";
           setFloor(baseAgents, 't2', 3, 1); baseAgents.t2.status = "Nonton";
           setFloor(baseAgents, 'lo2', 4, 1, true);
-          setFloor(baseAgents, 'lo3', 4, 2, true);
-          setFloor(baseAgents, 't3', 4, 2); baseAgents.t3.status = "Naro Barang";
-          setFloor(baseAgents, 'lo1', 3, 0, true);
-          setFloor(baseAgents, 't4', 3, 3); baseAgents.t4.status = "Persiapan";
+          setFloor(baseAgents, 'lo3', 3.5, 2, true);
+          setFloor(baseAgents, 't3', 3.5, 2); baseAgents.t3.status = "Naro Barang";
+          setFloor(baseAgents, 'lo1', 3.5, 0, true);
+          setFloor(baseAgents, 't4', 3.5, 3); baseAgents.t4.status = "Persiapan";
           setFloor(baseAgents, 't5', 4, 4); setFloor(baseAgents, 't6', 4, 5);
           break;
         case 15:
@@ -175,9 +184,9 @@ export default function Home() {
           for (let i = 1; i <= 3; i++) setFloor(baseAgents, `lo${i}`, 1, i - 1, true);
           for (let i = 1; i <= 6; i++) { setFloor(baseAgents, `t${i}`, 1, i - 1); baseAgents[`t${i}`].status = "Break"; }
           break;
-        case 18: // Transisi 5: T5 & LO2 naik Lt 4 ambil barang. T6 & LO3 naik Lt 4 standby.
-          setFloor(baseAgents, 'lo2', 4, 1, true);
-          setFloor(baseAgents, 't5', 4, 4); baseAgents.t5.status = "Ambil Barang";
+        case 18: // Transisi 5: T5 & LO2 turun (Area Tangga)
+          setFloor(baseAgents, 'lo2', 3.5, 1, true);
+          setFloor(baseAgents, 't5', 3.5, 4); baseAgents.t5.status = "Persiapan";
           setFloor(baseAgents, 'lo3', 4, 2, true);
           setFloor(baseAgents, 't6', 4, 5); baseAgents.t6.status = "Standby";
           setFloor(baseAgents, 'lo1', 3, 0, true);
@@ -195,13 +204,13 @@ export default function Home() {
           setFloor(baseAgents, 'lo3', 4, 2, true);
           setFloor(baseAgents, 't6', 4, 5); baseAgents.t6.status = "Standby";
           break;
-        case 21: // Transisi 6: T5 & LO2 naik Lt 4 naro barang. T6 & LO3 turun Lt 3 persiapan.
+        case 21: // Transisi 6: T5 & LO2 naik, T6 & LO3 turun (Area Tangga)
           setFloor(baseAgents, 'lo1', 3, 0, true);
           for (let i = 1; i <= 4; i++) { setFloor(baseAgents, `t${i}`, 3, i - 1); baseAgents[`t${i}`].status = "Nonton"; }
-          setFloor(baseAgents, 'lo2', 4, 1, true);
-          setFloor(baseAgents, 't5', 4, 4); baseAgents.t5.status = "Naro Barang";
-          setFloor(baseAgents, 'lo3', 3, 2, true);
-          setFloor(baseAgents, 't6', 3, 5); baseAgents.t6.status = "Persiapan";
+          setFloor(baseAgents, 'lo2', 3.5, 1, true);
+          setFloor(baseAgents, 't5', 3.5, 4); baseAgents.t5.status = "Naro Barang";
+          setFloor(baseAgents, 'lo3', 3.5, 2, true);
+          setFloor(baseAgents, 't6', 3.5, 5); baseAgents.t6.status = "Persiapan";
           break;
         case 22:
         case 23: // Presentasi 6: T5 turun nonton, LO2 standby Lt 4. T6 & LO3 presenting.
@@ -318,6 +327,7 @@ export default function Home() {
               
               {/* Floor Visuals */}
               <div className="floor floor-4"><span className="floor-label">Lantai 4: Ruang Transit / 4B1</span></div>
+              <div className="floor floor-stairs"><span className="floor-label">Area Tangga / Transisi</span></div>
               <div className="floor floor-3"><span className="floor-label">Lantai 3: Auditorium SGLC</span></div>
               <div className="floor floor-1"><span className="floor-label">Lantai 1: Gate / Pendaftaran</span></div>
               

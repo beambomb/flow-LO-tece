@@ -247,9 +247,10 @@ body {
   opacity: 0.5;
 }
 
-.floor-4 { top: 5%; height: 25%; border-color: rgba(139, 92, 246, 0.3); }
-.floor-3 { top: 35%; height: 28%; border-color: rgba(59, 130, 246, 0.3); background: rgba(59, 130, 246, 0.05); }
-.floor-1 { top: 68%; height: 25%; border-color: rgba(16, 185, 129, 0.3); }
+.floor-4 { top: 2%; height: 22%; border-color: rgba(139, 92, 246, 0.3); }
+.floor-stairs { top: 26%; height: 10%; border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.05); }
+.floor-3 { top: 38%; height: 24%; border-color: rgba(59, 130, 246, 0.3); background: rgba(59, 130, 246, 0.05); }
+.floor-1 { top: 65%; height: 24%; border-color: rgba(16, 185, 129, 0.3); }
 
 /* Lift Track */
 .lift-track {
