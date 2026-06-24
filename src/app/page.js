@@ -221,9 +221,15 @@ export default function Home() {
           setFloor(baseAgents, 't6', 3, 5); baseAgents.t6.status = "Presenting";
           break;
         case 24:
-        case 25:
-        case 26:
-        case 27:
+        case 25: // Penutupan
+          for (let i = 1; i <= 3; i++) setFloor(baseAgents, `lo${i}`, 3, i - 1, true);
+          for (let i = 1; i <= 6; i++) { setFloor(baseAgents, `t${i}`, 3, i - 1); baseAgents[`t${i}`].status = "SGLC"; }
+          break;
+        case 26: // Rapat Juri -> Semua di ruang tunggu (Lt 4)
+          for (let i = 1; i <= 3; i++) setFloor(baseAgents, `lo${i}`, 4, i - 1, true);
+          for (let i = 1; i <= 6; i++) { setFloor(baseAgents, `t${i}`, 4, i - 1); baseAgents[`t${i}`].status = "Transit 4B1"; }
+          break;
+        case 27: // Pengumuman Juara
           for (let i = 1; i <= 3; i++) setFloor(baseAgents, `lo${i}`, 3, i - 1, true);
           for (let i = 1; i <= 6; i++) { setFloor(baseAgents, `t${i}`, 3, i - 1); baseAgents[`t${i}`].status = "SGLC"; }
           break;
