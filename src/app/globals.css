@@ -214,16 +214,20 @@ body {
   padding: 0;
   background-color: #0b1120;
   position: relative;
-  overflow: hidden;
+  overflow: auto;
+  overflow-x: auto;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
 .simulation-canvas {
   width: 100%;
   height: 100%;
+  min-width: 800px;
+  min-height: 400px;
   position: relative;
+  flex-shrink: 0;
 }
 
 /* Floor Plans */
@@ -450,24 +454,14 @@ body {
   }
   .layout-canvas-container {
     min-height: 450px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
   }
   .rundown-table-wrapper {
     max-height: 350px;
   }
   .panel {
     border-radius: 8px;
-  }
-  .agent {
-    width: 24px;
-    height: 24px;
-    font-size: 0.55rem;
-  }
-  .floor-label {
-    font-size: 0.75rem;
-  }
-  .lift-label {
-    font-size: 0.75rem;
-    letter-spacing: 2px;
   }
 }
 
